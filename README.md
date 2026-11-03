@@ -1,34 +1,21 @@
-# json_server
+# json_server (no Redis)
 
 A lightweight JSON REST API server for Dart, inspired by
 [node-json-server](https://www.npmjs.com/package/json-server).
 
 Point it at a JSON file and it serves each top-level key as a REST resource.
+Data is kept in memory and changes are written back to the JSON file. This
+version has no Redis dependency and is the fastest of the two versions.
 
 ## Usage
 
-Create a database file:
-
-```json
-{
-  "posts": [
-    { "id": 1, "title": "Hello", "views": 100 },
-    { "id": 2, "title": "World", "views": 250 }
-  ],
-  "comments": [
-    { "id": 1, "postId": 1, "body": "First!" }
-  ],
-  "profile": { "name": "Mustafa" }
-}
-```
-
-Start the server:
-
 ```sh
+dart pub get
 dart run bin/json_server.dart db.json
 ```
 
-The API is then available at `http://localhost:3000`.
+The API is then available at `http://localhost:3000`. A sample `db.json` is
+included.
 
 ### Options
 

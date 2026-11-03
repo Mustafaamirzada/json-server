@@ -1,5 +1,5 @@
 name: json_server
-description: A sample command-line application.
+description: A json-server style REST API backed by a JSON file.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
