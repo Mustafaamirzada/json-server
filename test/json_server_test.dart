@@ -49,7 +49,12 @@ void main() {
     databaseFile = File('${temporaryDirectory.path}/db.json');
     await databaseFile.writeAsString(jsonEncode(_initialDatabase));
 
-    server = JsonServer(file: databaseFile.path, host: '127.0.0.1', port: 0);
+    server = JsonServer(
+      file: databaseFile.path,
+      host: '127.0.0.1',
+      port: 0,
+      logRequests: false,
+    );
     await server.start();
     client = HttpClient();
   });

@@ -110,7 +110,7 @@ Never _fail(String message) {
 
 void _printUsage({bool toStandardError = false}) {
   final output = toStandardError ? stderr : stdout;
-  output.writeln('Usage: dart run bin/json_server.dart <file> [options]');
+  output.writeln('Usage: json-server <file> [options]');
   output.writeln();
   output.writeln('Options:');
   output.writeln('  -p, --port <port>   Port to listen on (default: 3000)');
@@ -121,7 +121,7 @@ void _printUsage({bool toStandardError = false}) {
   output.writeln('  -h, --help          Show this help message');
   output.writeln();
   output.writeln('Example:');
-  output.writeln('  dart run bin/json_server.dart db.json --port 3000');
+  output.writeln('  json-server db.json --port 3000');
 }
 
 class _Options {

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'src/request_logger.dart';
+
 const _reservedParameters = {
   '_page',
   '_limit',
@@ -27,17 +29,20 @@ class JsonServer {
     this.host = '0.0.0.0',
     this.port = 3000,
     this.watch = false,
+    this.logRequests = true,
   });
 
   final String file;
   final String host;
   final int port;
   final bool watch;
+  final bool logRequests;
 
   Map<String, dynamic> _database = {};
   HttpServer? _server;
   StreamSubscription<FileSystemEvent>? _watchSubscription;
   Timer? _reloadTimer;
+  late final RequestLogger _logger = RequestLogger(enabled: logRequests);
 
   Map<String, dynamic> get database => _database;
 
@@ -99,6 +104,7 @@ class JsonServer {
   }
 
   Future<void> _handleRequest(HttpRequest request) async {
+    final stopwatch = Stopwatch()..start();
     final response = request.response;
     _setCorsHeaders(response);
     try {
@@ -126,6 +132,15 @@ class JsonServer {
           await response.close();
         } catch (_) {}
       }
+    } finally {
+      stopwatch.stop();
+      _logger.log(
+        method: request.method,
+        uri: request.uri,
+        statusCode: response.statusCode,
+        duration: stopwatch.elapsed,
+        remoteAddress: request.connectionInfo?.remoteAddress.address,
+      );
     }
   }
 
